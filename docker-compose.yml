@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    image: eclipse-temurin:17-jdk
+    container_name: crm_dance_app
+    ports:
+      - "4800:4800"
+    environment:
+      - SERVER_PORT=4800
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/CRMDanceTestTask?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_FLYWAY_URL=jdbc:mysql://mysql:3306/CRMDanceTestTask?useSSL=false
+      - SPRING_FLYWAY_USER=admin
+      - SPRING_FLYWAY_PASSWORD=password
+      - JWT_EXPIRATION=3600000000
+      - JWT_SECRET=mySecret
+    volumes:
+      - .:/app
+    command: sh -c "cd /app && ./mvnw spring-boot:run"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: crm_dance_mysql
+    environment:
+      - MYSQL_DATABASE=CRMDanceTestTask
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
