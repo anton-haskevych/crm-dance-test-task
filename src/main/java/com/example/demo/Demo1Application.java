@@ -13,9 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ServletComponentScan
 @EnableScheduling
 @EnableWebMvc
-@EnableCaching
 @EnableJpaRepositories("com.example.demo.repositories")
-//@EnableWebSecurity(debug = true)
 public class Demo1Application {
 
 	public static void main(String[] args) {
